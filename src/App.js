@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
-import {Table, ButtonGroup, Button} from 'react-bootstrap';
+import {Table, ButtonGroup, Button, Popover, OverlayTrigger} from 'react-bootstrap';
 import logo from './logo.svg';
 import './App.css';
 import {IpfsHost, IpfsPort, ipfs} from './ipfs';
@@ -18,6 +18,8 @@ class App extends Component {
   }
 
   componentDidMount() {
+    new window.ClipboardJS('#shareBtn');
+
     let to = DappAddress;
     let value = "0";
     let callFunction = "forEach";
@@ -60,7 +62,6 @@ class App extends Component {
       
       window.nebPay.call(to, value, callFunction, callArgs, {
         listener: function(resp) {
-          debugger
         }
       });
 
@@ -85,7 +86,11 @@ class App extends Component {
   }
 
   render() {
-    // const files = localStorage.getItem(publicKey) || []
+    const popoverTop = (
+      <Popover id="popover-positioned-top" title="">
+        <strong>Copied!</strong>
+      </Popover>
+    );
 
     return (
       <div className="App">
@@ -118,8 +123,11 @@ class App extends Component {
                       <td>{f.createdBy}</td>
                       <td>
                         <ButtonGroup>
-                          <Button href={`http://${IpfsHost}:${IpfsPort}/ipfs/${f.ipfsHash}`} target='_blank'>View File</Button>
-                          <Button>Transaction Receipt</Button>
+                          <Button href={`http://${IpfsHost}:${IpfsPort}/ipfs/${f.ipfsHash}`} target='_blank' id='fileHash'>View File</Button>
+                          <OverlayTrigger rootClose trigger="click" placement="top" overlay={popoverTop}>
+                            <Button id='shareBtn' data-clipboard-text={`http://${IpfsHost}:${IpfsPort}/ipfs/${f.ipfsHash}`}>Copy to share link</Button>
+                          </OverlayTrigger>
+                          
                         </ButtonGroup>
                       </td>
                     </tr>
