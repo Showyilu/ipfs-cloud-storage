@@ -4,6 +4,7 @@ import {Table, ButtonGroup, Button, Popover, OverlayTrigger} from 'react-bootstr
 import logo from './logo.svg';
 import './App.css';
 import {IpfsHost, IpfsPort, ipfs} from './ipfs';
+import LandingIntroBanner from './LandingIntroBanner';
 
 const DappAddress = 'n1jabJT7qLZ9133vqYb4fHgY6Tm6MzcCXQM';
 // 0917821fec1d7c45006aa68a1676cefa895b896ed278ea36549a7010bbf9fbc6
@@ -23,7 +24,7 @@ class App extends Component {
     let to = DappAddress;
     let value = "0";
     let callFunction = "forEach";
-    let callArgs = "[\"100\",\"0\"]"; //in the form of ["args"]
+    let callArgs = "[\"300\",\"0\"]"; //in the form of ["args"]
     var that = this;
 
     window.nebPay.simulateCall(to, value, callFunction, callArgs, {    //使用nebpay的simulateCall接口去执行get查询, 模拟执行.不发送交易,不上链
@@ -32,11 +33,16 @@ class App extends Component {
             if(response.result === "[]") {
               return [];
             } else {
-              let files = JSON.parse(response.result)
+              try {
+                let files = JSON.parse(response.result)
 
-              that.setState({
-                files: files
-              })
+                that.setState({
+                  files: files
+                })  
+              } catch (error) {
+
+              }
+              
             }  
           }
           
@@ -69,15 +75,6 @@ class App extends Component {
   }
 
   onDrop(files) {
-    // debugger
-    // let newFiles = this.state.files.concat(files)
-
-    // this.setState({
-    //   files: newFiles
-    // });
-
-    // localStorage.setItem(publicKey, newFiles)
-
     let file = files[0]
 
     let reader = new window.FileReader()
@@ -88,31 +85,34 @@ class App extends Component {
   render() {
     const popoverTop = (
       <Popover id="popover-positioned-top" title="">
-        <strong>Copied!</strong>
+        <strong>已复制!</strong>
       </Popover>
     );
 
     return (
       <div className="App">
+        <LandingIntroBanner />
         <section>
           <div style={{background: '#E8E9EC', height: '220px', paddingTop: '30px'}}>
             <Dropzone
               multiple={false}
+              maxSize={30000000}
               onDrop={this.onDrop.bind(this)}
               style={{width: '80%', height: '160px', borderWidth: '2px',
                 borderColor: '#0087F7', borderStyle: 'dashed',
                 marginLeft: '10%', background: '#fff'}}>
-              <p style={{marginTop: '70px', textAlign: 'center', fontWeight: 'bold', fontSize: 20}}>Try dropping a file here, or click to select a file to upload.</p>
+              <p style={{marginTop: '50px', textAlign: 'center', fontWeight: 'bold', fontSize: 20}}>拖拉文件或者点击上传文件, 一次上传一份文件</p>
+              <p style={{marginTop: '20px', textAlign: 'center', fontWeight: 'bold', fontSize: 16}}>单个文件大小最大为30 MB, 不支持mp3, mp4等音频，视频文件</p>
             </Dropzone>
           </div>
           <aside style={{marginLeft: '80px', marginRight: '80px'}}>
-            <h2 style={{textAlign: 'center'}}>Your files</h2>
+            <h2 style={{textAlign: 'center'}}>{`文件列表 (共${this.state.files.length})个`}</h2>
             <Table striped bordered condensed hover>
               <thead>
                 <tr>
-                  <th>Ipfs Hash</th>
-                  <th>Uploaded By</th>
-                  <th></th>
+                  <th>Ipfs哈希</th>
+                  <th>上传者</th>
+                  <th>操作</th>
                 </tr>
               </thead>
               <tbody>
@@ -123,9 +123,9 @@ class App extends Component {
                       <td>{f.createdBy}</td>
                       <td>
                         <ButtonGroup>
-                          <Button href={`http://${IpfsHost}:${IpfsPort}/ipfs/${f.ipfsHash}`} target='_blank' id='fileHash'>View File</Button>
+                          <Button href={`http://${IpfsHost}:${IpfsPort}/ipfs/${f.ipfsHash}`} target='_blank' id='fileHash'>查看文件</Button>
                           <OverlayTrigger rootClose trigger="click" placement="top" overlay={popoverTop}>
-                            <Button id='shareBtn' data-clipboard-text={`http://${IpfsHost}:${IpfsPort}/ipfs/${f.ipfsHash}`}>Copy to share link</Button>
+                            <Button id='shareBtn' data-clipboard-text={`http://${IpfsHost}:${IpfsPort}/ipfs/${f.ipfsHash}`}>分享</Button>
                           </OverlayTrigger>
                           
                         </ButtonGroup>
