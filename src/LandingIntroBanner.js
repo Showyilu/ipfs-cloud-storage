@@ -30,8 +30,9 @@ export default class LandingIntroBanner extends Component {
           >
             <div>
               <h2 style={styles.title}>
-                更快，更优，更 Cool !<br />基于IPFS和NAS的文件云存储
+                更快，更优，更安全!<br />基于IPFS的私人文件云存储<br />Control Your Own Data
               </h2>
+              <b style={styles.powered}>Powered By Nebulas</b>
             </div>
           </div>
         </div>
@@ -68,6 +69,11 @@ const styles = {
     color: '#fff',
     letterSpacing: '1.94px',
     lineHeight: '48px',
+  },
+  powered: {
+    textAlign: 'center',
+    width: '400px',
+    display: 'inline-block'
   },
   buttons: { textAlign: 'center', marginTop: 70 },
 };

@@ -1,7 +1,16 @@
-let IpfsHost = 'localhost';
-let IpfsPort = '8080';
+const ENV = 'development'; // development or production
+
+let IpfsHost = '', IpfsApiPort = '';
+if(ENV === 'development') {
+  IpfsHost = 'localhost';
+  IpfsApiPort = '5001';
+} else {
+  IpfsHost = '128.199.228.113';
+  IpfsApiPort = '80';
+}
+
 
 const ipfsApi = require('ipfs-api');
-const ipfs = new ipfsApi(IpfsHost, 5001, {protocol: 'http'});
+const ipfs = new ipfsApi(IpfsHost, IpfsApiPort, {protocol: 'http'});
 
-export { ipfs, IpfsHost, IpfsPort };
+export { ipfs };

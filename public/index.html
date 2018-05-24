@@ -11,6 +11,7 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="./loading.css">
     <script src="./clipboard.min.js"></script>
     <script src="./nebPay.js"></script>
     
@@ -42,9 +43,11 @@
     -->
     <script src=./nebPay.js></script>
     <script src=./jquery-3.3.1.min.js></script>
+    <script src=./loading.js></script>
     <script>
       var NebPay = require("nebpay");     //https://github.com/nebulasio/
-      window.nebPay = new NebPay();      
+      window.nebPay = new NebPay();
+      window.$ = $;
     </script>
 
     <script>

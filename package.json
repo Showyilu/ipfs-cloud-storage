@@ -3,15 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "react-scripts": "1.1.4",
     "bootstrap": "^3.3.7",
     "fs-extra": "^5.0.0",
     "ipfs-api": "^18.1.1",
-    "react-dropzone": "^4.2.8",
+    "nebulas": "0.4.8",
+    "react": "^16.3.2",
     "react-bootstrap": "^0.32.1",
-    "nebulas": "0.4.8"
+    "react-dom": "^16.3.2",
+    "react-dropzone": "^4.2.8",
+    "react-scripts": "1.1.4",
+    "react-tag-input": "^5.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -5,9 +5,11 @@ var FileEntry = function (text) {
     var o = JSON.parse(text);
     this.ipfsHash = o.ipfsHash;
     this.createdBy = o.createdBy;
+    this.tags = (o.tags || '').split(',');
   } else {
     this.ipfsHash = '';
     this.createdBy = '';
+    this.tags = '';
   }
 };
 
@@ -42,17 +44,19 @@ FileUploaderContract.prototype = {
     return this.size;
   },
 
-  save: function (ipfsHash = "") {
+  save: function (ipfsHash = "", tags="") {
     var from = Blockchain.transaction.from;
 
     var fileEntry = this.dataMap.get(ipfsHash);
 
     if (fileEntry) {
-      throw new Error("The file has been saved");
+      // throw new Error("The file has been saved");
+      alert('文件已经上传过');
     } else {
       var fileEntry = new FileEntry();
       fileEntry.ipfsHash = ipfsHash;
       fileEntry.createdBy = from;
+      fileEntry.tags = tags;
     }
 
     var index = this.size;
