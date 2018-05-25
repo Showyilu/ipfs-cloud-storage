@@ -1,4 +1,4 @@
-const ENV = 'development'; // development or production
+const ENV = 'production'; // development or production
 
 let IpfsHost = '', IpfsApiPort = '';
 if(ENV === 'development') {
